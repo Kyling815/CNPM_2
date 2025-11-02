@@ -1,0 +1,100 @@
+% 'draft' mode can be used to speed up compilation
+\documentclass[twoside,final]{hcmut-report}
+\usepackage{codespace}
+\usepackage{float}
+% Draft watermark
+% https://github.com/callegar/LaTeX-draftwatermark
+
+% Encodings
+\usepackage{gensymb,textcomp}
+
+% Better tables
+% Wide tables go to https://tex.stackexchange.com/q/332902
+\usepackage{array,longtable,multicol,multirow,siunitx,tabularx}
+
+% Better enum
+\usepackage{enumitem}
+
+% Graphics
+\usepackage{caption,float}
+
+% Add options for figures, like max width, framing, etc.
+\usepackage[export]{adjustbox}
+
+% References
+% Use \Cref{} instead of \ref{}
+\usepackage[nameinlink]{cleveref}
+
+% FOR DEMONSTRATION PURPOSES, REMOVE IN PRODUCTION
+\usepackage{mwe}
+
+% Sub-preambles
+% https://github.com/MartinScharrer/standalone
+
+% Configurations
+\coursename{Software Engineering (CO3001)}
+\reporttype{Assignment Report 2}
+\title{Tutor-Support System}
+\advisor{& PhD. Truong Thi Thai Minh &}
+\stuname{%
+  & Do Viet Duy Tuong & ID 2353302  \\
+  & Duong Bao Long & ID 2352687      \\
+  & Nguyen Thanh Phong & ID 2352908   \\
+  & Nguyen Tran Hoang Minh & ID 2352756\\
+  & Hoang Duc Hieu Anh & ID 2352030     \\
+  & Tran Hung Son & ID 2353055           \\
+  & Huynh Nhat Huy & ID 2352381           \\
+}
+
+% Allow page breaks inside align* environment
+%\allowdisplaybreaks{}
+
+% Makes a lot of things blue, avoid at all costs
+%\everymath{\color{blue}}
+
+% Set depth of numbering for counters
+\AtBeginDocument{\counterwithin{lstlisting}{section}}
+
+% Rename some sections
+%\AtBeginDocument{\renewcommand*{\contentsname}{Contents}}
+%\AtBeginDocument{\renewcommand*{\refname}{References}}
+%\AtBeginDocument{\renewcommand*{\bibname}{References}}
+
+% Custom commands
+%\newcommand*\mean[1]{\bar{#1}}
+
+\begin{document}
+\coverpage%
+
+\section*{Member list \& Workload}
+\newcounter{memberrowno}
+\setcounter{memberrowno}{0}
+\begin{center}
+  \begin{tabular}{>{\stepcounter{memberrowno}\thememberrowno}llcc}
+    \toprule
+    \multicolumn{1}{c}{\textbf{No.}} & \textbf{Full name} & \textbf{Student ID} & \textbf{Workload} \\
+    \midrule
+                                     & Do Viet Duy Tuong      & 2353302 &     100\%                          \\
+                                     & Duong Bao Long         & 2352687 &     100\%                         \\
+                                     & Nguyen Thanh Phong     & 2352908 &     100\%                          \\
+                                     & Nguyen Tran Hoang Minh & 2352756 &     100\%                           \\
+                                     & Hoang Duc Hieu Anh     & 2352030 &     100\%                            \\
+                                     & Tran Hung Son          & 2352381 &     100\%                             \\
+                                     & Huynh Nhat Huy         & 2352381 &     100\%                              \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+\clearpage
+
+\tableofcontents
+\listoffigures
+\clearpage
+
+\clearpage
+\input{chapters/Sequence Diagram}
+\include{chapters/Activity Diagram}
+\include{chapters/Statechart Diagrams}
+\input{chapters/UI Design}
+
+
+\end{document}
