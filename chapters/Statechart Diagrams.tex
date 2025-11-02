@@ -1,0 +1,90 @@
+\section{Statechart Diagrams}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Statechart Diagram/ScureLogin.png}
+    \caption{Statechart Diagram for Secure Login.}
+\end{figure}
+Lifecycle of a session: Unauthenticated → RedirectingToSSO → AwaitingCredentials → Authenticating. \\
+From Authenticating: \\
+\quad [SSO unreachable] → SSOError → End; \\
+\quad [Invalid credentials] → AuthFail → AwaitingCredentials; \\
+\quad [Valid] → ValidatingToken. \\
+From ValidatingToken: \\
+\quad [invalid] → Authenticating; \\
+\quad [valid] → FetchingData. \\
+From FetchingData: \\
+\quad [multiple roles] → SelectingRole → ApplyingRBAC → Authenticated; \\
+\quad [single role] → ApplyingRBAC → Authenticated.
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Statechart Diagram/UC003.png}
+    \caption{Statechart Diagram for Check Schedule.}
+\end{figure}
+Lifecycle of a schedule: Draft → Submission → Validation. \\
+At Validation: [no conflict] → AwaitingConfirmation → Confirmed → Saved → End; [conflict] → Blocked → End. \\
+Exception branches: OutOfPolicy → Blocked; \\
+SchedulerDelay → Pending → QueueResolved → Draft/Saved | Error → End; \\
+TutorExit → Draft (unchanged).
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Statechart Diagram/UC004.jpg}
+    \caption{Statechart Diagram for Selecting Tutor.}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Statechart Diagram/Booksession_statechart.jpg}
+    \caption{Statechart Diagram for Book Session.}
+\end{figure}
+Lifecycle of booking: Browsing → CheckingAvailability. \\
+\quad [unavailable] → Browsing; \\
+\quad [available] → AwaitConfirmation. \\
+\quad [cancel] → Browsing; \\
+\quad [confirm] → CreatingBookingRecord. \\
+\quad [fail] → Browsing; \\
+\quad [success] → NotifyingTutor. \\
+\quad [Tutor accepts] → Confirmed → End; \\
+\quad [Tutor rejects] → Rejected → End.
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Statechart Diagram/UC007_StateChartDiagram.png}
+    \caption{Statechart Diagram for Modify Booking.}
+\end{figure}
+Lifecycle of a booking: Booked → ActionSelected (Reschedule | Cancel). 
+Reschedule → CheckingAlternatives → [available] UpdatingSlots → Booked (new slot) | [none] Waitlist → End (notify-me). 
+Cancel → Cancelled → SlotFreed. 
+Exception branches: 
+OutOfPolicy → Blocked → End; 
+SchedulerDelay → Pending → QueueResolved → Booked/Cancelled | Error → End. 
+StudentExit → Booked (unchanged).
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Statechart Diagram/UC008.png}
+    \caption{Statechart Diagram for Grade Submissions.}
+\end{figure}
+Lifecycle of a submission: Submitted → UnderReview → Grading → Graded → Release (Publish or Pending) → Released. Exception branches: NeedsResubmission (back to Submitted) and OnHold (Investigating → Cleared → Released | Violation → Sanctioned).
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Statechart Diagram/UC009.png}
+    \caption{Statechart Diagram for At-Risk Student Detection.}
+\end{figure}
+Lifecycle of analysis session: Idle → FiltersConfigured → DataAggregation. \\
+From DataAggregation: \\
+\quad [stale] →RetrySync → DataAggregation; \\
+\quad [fresh] → AnalysisRunning. \\
+From AnalysisRunning: \\
+\quad [success] → RiskListGenerated → [matches] StaffReview → ExportRequest → ExportComplete → Logged; \\
+\quad [no matches] → EmptyList → StaffReview → ExportRequest → ExportComplete → Logged; \\
+\quad [fail] → AnalysisError → Logged.

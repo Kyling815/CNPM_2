@@ -1,0 +1,84 @@
+\section{Activity Diagrams}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Activity Diagram/SecureLogin.drawio (1).png}
+    \caption{Activity Diagram for Secure Login.}
+\end{figure}
+Shows the workflow across User, System, and HCMUT\_SSO: access public page → login → redirect to HCMUT\_SSO → prompt credentials. \\
+If user cancels → return to public page. \\
+User submits student ID and password → system validates with HCMUT\_SSO. \\
+If SSO unreachable → display error and stop. \\
+If credentials invalid → show error → prompt again. \\
+If valid → validate token. \\
+If token invalid → rollback to authentication. \\
+If token valid → fetch role list → user selects active role → apply RBAC → enter dashboard.
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphics/Activity Diagram/UC003.png}
+    \caption{Activity Diagram for Checking Schedule.}
+\end{figure}
+Activity: Shows the workflow across Tutor, System, and HCMUT\_DATACORE: create schedule → send request → find conflict. \\
+If conflict: require tutor approval; if no conflict: block \& set pending. \\
+Alternatives: tutor changes mind → exit without changes. \\
+Exceptions: out-of-policy → block \& show reason; scheduler delay → pending → queue resolved or error. \\
+After resolution, send result to UI → tutor reviews.
+\clearpage
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{graphics/Activity Diagram/UC004 (1).jpg}
+    \caption{Activity Diagram for Selecting Tutor.}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{graphics/Activity Diagram/Booksession_ActDiagram.jpg}
+    \caption{Activity Diagram for Booking Session.}
+\end{figure}
+Shows the workflow across Student, System, and Database: login → select tutor and subject → display list from Database → student selects slot → check availability. \\
+If unavailable → show message → end. \\
+If available → request confirmation → student confirms → save booking in Database → notify Tutor. \\
+Tutor accepts → send final confirmation → end; \\
+Tutor rejects → delete record → loop back to display tutor list.
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{graphics/Activity Diagram/UC007_ActivityDiagram.png}
+    \caption{Activity Diagram for Modifying Booking.}
+\end{figure}
+
+ Shows the workflow across Student and System: confirm intent → select Reschedule or Cancel. \\
+ Reschedule: show non-conflicting alternatives → if available, student chooses new slot → update slots (lock new, free old); if none, offer waitlist/notify-me → end. \\
+ Cancel: set Cancelled, free slot → end. \\
+ Alternatives: student changes mind → exit without changes. \\
+ Exceptions: out-of-policy → block \& show reason; scheduler delay/outage → pending → queue resolved or error.
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphics/Activity Diagram/UC008.drawio (1).png}
+    \caption{Activity Diagram for Grade Submissions.}
+\end{figure}
+
+Shows the workflow across Tutor and System: open gradebook $\rightarrow$ select $\rightarrow$ grade $\rightarrow$ save/update gradebook $\rightarrow$ publish now or schedule. Alternatives: bulk/CSV grading; exceptions: unreadable file $\rightarrow$ resubmission, integrity flag $\rightarrow$ hold \& escalate.
+
+
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphics/Activity Diagram/UC009.png}
+    \caption{Activity Diagram for At-Risk Student Detection.}
+\end{figure}
+Shows the workflow across CTSV Staff and System: open analysis tool → set filters (preset or custom) → retrieve data from HCMUT\_DATACORE. \\
+If data stale → warn and resync → retry. \\
+Analyze and rank by risk. \\
+If no students found → show empty state. \\
+If students found and no error → display ranked list. \\
+If error → log and retry. \\
+All outcomes enable review and export (CSV/PDF) → log actions → end.

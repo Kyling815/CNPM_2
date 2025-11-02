@@ -1,0 +1,86 @@
+\section{Sequence Diagrams}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Sequence Diagram/SecureLogin.drawio.png}
+    \caption{Sequence Diagram for Secure Login.}
+\end{figure}
+Depicts interactions among User, UI, System, HCMUT\_SSO, and Database. \\
+User presses Login on UI → System redirects to HCMUT\_SSO → User submits credentials. \\
+$[$SSO unreachable$]$ → error "Service Unavailable". \\
+$[$Invalid credentials$]$ → SSO returns error → UI prompts re-entry. \\
+$[$Valid credentials$]$ → SSO returns token → System validates token. \\
+$[$Token invalid$]$ → re-authentication. \\
+$[$Token valid$]$ → System fetches profile and roles from Database → UI shows role selector → User selects active role → System applies RBAC → displays dashboard.
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Sequence Diagram/UC003.png}
+    \caption{Sequence Diagram for Checking Schedule.}
+\end{figure}
+Depicts interactions among :TUTOR, UI, SYSTEM, HCMUT\_DATACORE, and NOTIFICATION SERVICE. \\
+Tutor submits slot via UI → SYSTEM validates with HCMUT\_DATACORE → [conflict] block or [no conflict] require confirmation → save event on approval. \\
+After save/checks, system sends result to UI, notifies stakeholders, and writes audit record.
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Sequence Diagram/UC004.jpg}
+    \caption{Sequence Diagram for Selecting Tutor.}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Sequence Diagram/Booksession_SeqDiagram.jpg}
+    \caption{Sequence Diagram for Booking Session.}
+\end{figure}
+Depicts interactions among Student, App UI, Backend Server, Database, and Tutor. \\
+Student opens booking page → App UI requests tutor/time list → Backend Server queries Database → returns data → displays. \\
+Student selects slot → App UI requests availability check. \\
+\quad [slot available] → show confirmation; [unavailable] → show message. \\
+Student confirms → Backend Server creates record in Database → notifies Tutor. \\
+\quad [Tutor accepts] → final confirmation to Student; \\
+\quad [Tutor rejects] → delete record → prompt to choose another.
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Sequence Diagram/UC007_SequenceDiagram.png}
+    \caption{Sequence Diagram for Modifying Booking.}
+\end{figure}
+
+Depicts interactions among Student, System, and Notification Service. Student opens My Sessions → selects booking → chooses action. \\
+Reschedule: System returns alternatives → [no alternatives] offer waitlist/notify-me; [alternatives] student picks → System locks new slot, frees old → success. \\
+Cancel: System sets status = Cancelled, frees slot. [Student changes mind] exit. \\
+System sends notifications → Notification Service acknowledges → writes audit record → shows confirmation. \\
+Opt: out-of-policy → block \& show reason; scheduler delay → show pending → queue request.
+
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Sequence Diagram/UC008.drawio.png}
+    \caption{Sequence Diagram for Grade Submissions.}
+\end{figure}
+
+Depicts interactions among Tutor, UI, GradingService, DB, IntegrityService, and NotificationService. After saving and checks, the system either publishes and notifies or schedules/holds per policy.
+
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{graphics/Sequence Diagram/UC009.png}
+    \caption{Sequence Diagram for At-Risk Student Detection.}
+\end{figure}
+Depicts interactions among Staff, UI, System, and HCMUT\_DATACORE. \\
+Staff opens At-Risk tool → UI prompts filters → Staff sets thresholds (preset alt available). \\
+System checks data freshness [stale] → warn and resync → retry. \\
+System requests attendance/grade data → HCMUT\_DATACORE returns. \\
+System runs analysis → returns results. \\
+\quad [success + matches] → ranked list + export options; \\
+\quad [no matches] → empty state + export; \\
+\quad [error] → log + retry. \\
+All paths converge on Staff review → export → log.
+\clearpage
